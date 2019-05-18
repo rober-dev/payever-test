@@ -6,6 +6,7 @@ const axios = require('axios');
 const Fs = require('fs');
 const Path = require('path');
 const base64 = require('node-base64-image');
+const base64Img = require('base64-img');
 
 // Load environment settings
 require('dotenv').config();
@@ -62,12 +63,8 @@ app.get('/api/user/:id/avatar', async (req, res) => {
   }
 
   // Response image from disk
-  var img = new Buffer(path, 'base64');
-  res.writeHead(200, {
-    'Content-Type': 'image/jpg',
-    'Content-Length': img.length
-  });
-  res.end(img);
+  const data = base64Img.base64Sync(path);
+  res.send(data);
 });
 
 // Start server
